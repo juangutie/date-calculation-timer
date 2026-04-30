@@ -152,31 +152,31 @@ function updateTimerElement(elapsedTime) {
 /* Date Generation */
 
 const monthNames = [
-    "December", "January", "February", "March", "April", "May", "June",
+    "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
 ];
 const monthLengths = [
-    31, 31, 28, 31, 30, 31, 30,
+    31, 28, 31, 30, 31, 30,
     31, 31, 30, 31, 30, 31,
 ];
 const calendarStart = {
     year: 1582,
-    month: 10,
+    monthIndex: monthNames.indexOf("October"),
     day: 15,
 };
 
 const defaults = {
-    year: 1600,
-    month: 1,
-    day: 1,
+    year: 1700,
+    monthIndex: monthNames.indexOf("March"),
+    day: 7,
 };
 
 const date = {
     randomString: function () {
         const year = yearElement.checked ? randomYear() : defaults.year;
-        const month = monthElement.checked ? randomMonth(year) : defaults.month;
-        const day = dayElement.checked ? randomDay({year, month}) : defaults.day;
-        this.date = new Date(year, month, day);
+        const monthIndex = monthElement.checked ? randomMonthIndex(year) : defaults.monthIndex;
+        const day = dayElement.checked ? randomDay(year, monthIndex) : defaults.day;
+        this.date = new Date(year, monthIndex, day);
         return this.date.toLocaleDateString(undefined, {
             ...(yearElement.checked ? {year: "numeric"} : {}),
             ...(monthElement.checked ? {month: "long"} : {}),
@@ -195,20 +195,20 @@ function randomYear() {
     return randomRangeInclusive(calendarStart.year, 3000);
 }
 
-function randomMonth(year = defaults.year) {
+function randomMonthIndex(year) {
     if (year === calendarStart.year) {
-        return randomRangeInclusive(calendarStart.month, 12);
+        return randomRangeInclusive(calendarStart.monthIndex, monthNames.length - 1);
     } else {
-        return randomRangeInclusive(1, 12);
+        return randomRangeInclusive(0, monthNames.length - 1);
     }
 }
-function randomDay({year = defaults.year, month = defaults.month} = {}) {
+function randomDay(year, monthIndex) {
     if (year === calendarStart.year) {
-        return randomRangeInclusive(calendarStart.day, monthLengths[month]);
-    } else if (month === 2 && isLeapYear(year)) {
-        return randomRangeInclusive(1, monthLengths[month] + 1);
+        return randomRangeInclusive(calendarStart.day, monthLengths[monthIndex]);
+    } else if (monthIndex === monthNames.indexOf("February") && isLeapYear(year)) {
+        return randomRangeInclusive(1, monthLengths[monthIndex] + 1);
     } else {
-        return randomRangeInclusive(1, monthLengths[month]);
+        return randomRangeInclusive(1, monthLengths[monthIndex]);
     }
 }
 
