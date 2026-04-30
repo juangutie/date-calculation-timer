@@ -1,0 +1,70 @@
+<!doctype html>
+<title>Date Trainer</title>
+<div>
+    <output class="js-month">Month</output>
+    <output class="js-day">Day</output>,
+    <output class="js-year">Year</output>
+</div>
+*Press <kbd>Space</kbd> to generate a new number*
+<script>
+/****************************************************************************/
+const monthNames = [
+    "December", "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+];
+const monthLengths = [
+    12, 31, 28, 31, 30, 31, 30,
+    31, 31, 30, 31, 30, 31,
+]
+const calendarStart = {
+    year: 1582,
+    month: 10,
+    day: 15,
+};
+const button = document.querySelector("button");
+const month = document.querySelector(".js-month");
+const day = document.querySelector(".js-day");
+const year = document.querySelector(".js-year");
+
+document.addEventListener("keyup", (event) => {
+    if (event.code === "Space") {
+        _year = randomYear();
+        _month = randomMonth(_year);
+        _day = randomDay({year: _year, month: _month});
+    
+        year.textContent = _year;
+        month.textContent = monthNames[_month];
+        day.textContent = _day;
+    }
+});
+
+function randomRangeInclusive(min, max) {
+    return Math.floor(min + Math.random() * (max - min + 1));
+}
+
+function randomYear() {
+    return randomRangeInclusive(calendarStart.year, 3000);
+}
+
+function randomMonth(year = undefined) {
+    if (year === calendarStart.year) {
+        return randomRangeInclusive(calendarStart.month, 12);
+    } else {
+        return randomRangeInclusive(1, 12);
+    }
+}
+function randomDay({year = undefined, month = 1} = {}) {
+    if (year === calendarStart.year) {
+        return randomRangeInclusive(calendarStart.day, monthLengths[month]);
+    } else if (month === 2 && isLeapYear(year)) {
+        return randomRangeInclusive(1, monthLengths[month] + 1);
+    } else {
+        return randomRangeInclusive(1, monthLengths[month]);
+    }
+}
+
+function isLeapYear(year) {
+    return (year % 4 === 0) && (year % 100 !== 0) || (year % 400 === 0)
+}
+/****************************************************************************/
+</script>
