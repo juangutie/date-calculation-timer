@@ -1,17 +1,26 @@
 <!doctype html>
 <title>Date Trainer</title>
+<fieldset>
+    <input type="checkbox" id="html-month" class="js-month" checked="true">
+    <label for="html-month">Month</label>
+    <input type="checkbox" id="html-day" class="js-day" checked="true">
+    <label for="html-day">Day</label>
+    <input type="checkbox" id="html-year" class="js-year" checked="true">
+    <label for="html-year">Year</label>
+</fieldset>
 <div>
-    <output class="js-date">Month Day, Year</output>
+    <output class="js-date">Month Day Year (Press <kbd>Space</kbd> to start)</output>
 </div>
 <div>
     <output class="js-timer">0:000</output>
 </div>
 <script>
 /****************************************************************************/
+const monthElement = document.querySelector(".js-month");
+const dayElement = document.querySelector(".js-day");
+const yearElement = document.querySelector(".js-year");
 const dateElement = document.querySelector(".js-date");
 const timerElement = document.querySelector(".js-timer");
-
-let canRestartTimer = true;
 
 const timer = {
     start: function () {
@@ -38,8 +47,9 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+let canRestartTimer = true;
 document.addEventListener("keyup", (event) => {
-    if (event.key === " ") {
+    if (event.key === " " && document.activeElement === document.body) {
         if (canRestartTimer) {
             dateElement.textContent = randomDateString();
             timer.start()
@@ -90,11 +100,22 @@ const calendarStart = {
 };
 
 function randomDateString() {
-    year = randomYear();
-    month = randomMonth(year);
-    day = randomDay({year, month});
-
-    return `${monthNames[month]} ${day}, ${year}`;
+    const year = yearElement.checked ? randomYear() : undefined;
+    const month = monthElement.checked ? randomMonth(year) : undefined;
+    const day = dayElement.checked ? randomDay({year, month}) : undefined;
+    
+    let dateSequence = [];
+    if (monthElement.checked) {
+        dateSequence.push(monthNames[month]);
+    }
+    if (dayElement.checked) {
+        dateSequence.push(day);
+    }
+    if (yearElement.checked) {
+        dateSequence.push(year);
+    }
+    
+    return dateSequence.join(" ");
 }
 
 function randomRangeInclusive(min, max) {
