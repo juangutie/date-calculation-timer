@@ -23,9 +23,6 @@
     </select>
 </div>
 <div>
-    <button class="js-submit-guess-button" disabled>Submit Guess</button>
-</div>
-<div>
     <output class="js-result"></output>
 </div>
 <details>
@@ -49,7 +46,6 @@ const timerElement = document.querySelector(".js-timer");
 const resultElement = document.querySelector(".js-result");
 const newDateButtonElement = document.querySelector(".js-new-date-button");
 const guessElement = document.querySelector(".js-guess");
-const submitGuessButtonElement = document.querySelector(".js-submit-guess-button");
 
 let enterKeyHeld = false;
 newDateButtonElement.addEventListener("keydown", (event) => {
@@ -58,7 +54,7 @@ newDateButtonElement.addEventListener("keydown", (event) => {
     }
 });
 
-newDateButtonElement.addEventListener("click", (event) => {
+newDateButtonElement.addEventListener("click", () => {
     if (!enterKeyHeld) {
         startGame();
     }
@@ -71,14 +67,13 @@ guessElement.addEventListener("keydown", (event) => {
     }
 });
 
-submitGuessButtonElement.addEventListener("click", () => {
+guessElement.addEventListener("change", (event) => {
     stopGame();
 });
 
 function startGame() {
     disable(newDateButtonElement);
     enable(guessElement)
-    enable(submitGuessButtonElement);
     guessElement.focus();
     dateElement.textContent = date.randomString();
     resultElement.textContent = ""; 
@@ -90,7 +85,6 @@ function stopGame() {
     timer.stop();
     enable(newDateButtonElement);
     disable(guessElement);
-    disable(submitGuessButtonElement);
     newDateButtonElement.focus();
     resultElement.textContent = date.day() === parseInt(guessElement.value)
         ? "✅"
