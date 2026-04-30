@@ -1,13 +1,80 @@
 <!doctype html>
 <title>Date Trainer</title>
 <div>
-    <output class="js-month">Month</output>
-    <output class="js-day">Day</output>,
-    <output class="js-year">Year</output>
+    <output class="js-date">Month Day, Year</output>
 </div>
-*Press <kbd>Space</kbd> to generate a new number*
+<div>
+    <output class="js-timer">0:000</output>
+</div>
 <script>
 /****************************************************************************/
+const dateElement = document.querySelector(".js-date");
+const timerElement = document.querySelector(".js-timer");
+
+let canRestartTimer = true;
+
+const timer = {
+    start: function () {
+        const animationStartTime = document.timeline.currentTime;
+        this.performanceStartTime = performance.now();
+        this.animationRequestId = requestAnimationFrame(function step(currentTime) {
+            this.animationRequestId = requestAnimationFrame(step.bind(this));
+            updateTimerElement(currentTime - animationStartTime);
+        }.bind(this));
+    },
+    stop: function() {
+        if (this.animationRequestId !== undefined) {
+            const stopTime = performance.now();
+            cancelAnimationFrame(this.animationRequestId);
+            this.animationRequestId = undefined;
+            updateTimerElement(stopTime - this.performanceStartTime);
+        }
+    }
+}
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === " ") {
+        timer.stop();
+    }
+});
+
+document.addEventListener("keyup", (event) => {
+    if (event.key === " ") {
+        if (canRestartTimer) {
+            dateElement.textContent = randomDateString();
+            timer.start()
+            canRestartTimer = false;
+        } else {
+            canRestartTimer = true;
+        }
+    }
+});
+
+function updateTimerElement(elapsedTime) {
+    const elapsedMillis = Math.floor(elapsedTime) % 1000;
+    const elapsedSeconds = Math.floor(elapsedTime / 1000) % 60;
+    const elapsedMinutes = Math.floor(elapsedTime / 60000) % 60;
+    const elapsedHours = Math.floor(elapsedTime / 3600000);
+    if (elapsedHours > 0) {
+        const hh = String(elapsedHours);
+        const mm = String(elapsedMinutes).padStart(2, "0");
+        const ss = String(elapsedSeconds).padStart(2, "0");
+        const mss = String(elapsedMillis).padStart(3, "0")
+        timerElement.textContent = `${hh}:${mm}:${ss}.${mss}`;
+    } else if (elapsedMinutes > 0) {
+        const mm = String(elapsedMinutes);
+        const ss = String(elapsedSeconds).padStart(2, "0");
+        const mss = String(elapsedMillis).padStart(3, "0")
+        timerElement.textContent = `${mm}:${ss}.${mss}`;
+    } else {
+        const ss = String(elapsedSeconds);
+        const mss = String(elapsedMillis).padStart(3, "0")
+        timerElement.textContent = `${ss}.${mss}`;
+    };
+}
+
+/* Date Generation */
+
 const monthNames = [
     "December", "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
@@ -21,22 +88,14 @@ const calendarStart = {
     month: 10,
     day: 15,
 };
-const button = document.querySelector("button");
-const month = document.querySelector(".js-month");
-const day = document.querySelector(".js-day");
-const year = document.querySelector(".js-year");
 
-document.addEventListener("keyup", (event) => {
-    if (event.code === "Space") {
-        _year = randomYear();
-        _month = randomMonth(_year);
-        _day = randomDay({year: _year, month: _month});
-    
-        year.textContent = _year;
-        month.textContent = monthNames[_month];
-        day.textContent = _day;
-    }
-});
+function randomDateString() {
+    year = randomYear();
+    month = randomMonth(year);
+    day = randomDay({year, month});
+
+    return `${monthNames[month]} ${day}, ${year}`;
+}
 
 function randomRangeInclusive(min, max) {
     return Math.floor(min + Math.random() * (max - min + 1));
