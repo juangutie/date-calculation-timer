@@ -1,19 +1,44 @@
 <!doctype html>
 <title>Date Trainer</title>
-<fieldset>
-    <input type="checkbox" id="html-month" class="js-month" checked="true">
-    <label for="html-month">Month</label>
-    <input type="checkbox" id="html-day" class="js-day" checked="true">
-    <label for="html-day">Day</label>
-    <input type="checkbox" id="html-year" class="js-year" checked="true">
-    <label for="html-year">Year</label>
-</fieldset>
 <div>
-    <output class="js-date">Month Day Year (Press <kbd>Space</kbd> to start)</output>
+    <output class="js-date">Month Day Year</output>
 </div>
 <div>
     <output class="js-timer">0:000</output>
 </div>
+<div>
+    <button class="js-new-date-button">New Date</button>
+</div>
+<div>
+    <label for="html-guess">Guess:</label>
+    <select id="html-guess" class="js-guess" disabled>
+        <option value=""></option>
+        <option value="0">0 - Sunday</option>
+        <option value="1">1 - Monday</option>
+        <option value="2">2 - Tuesday</option>
+        <option value="3">3 - Wednesday</option>
+        <option value="4">4 - Thursday</option>
+        <option value="5">5 - Friday</option>
+        <option value="6">6 - Saturday</option>
+    </select>
+</div>
+<div>
+    <button class="js-submit-guess-button" disabled>Submit Guess</button>
+</div>
+<div>
+    <output class="js-result"></output>
+</div>
+<details>
+    <summary>Settings</summary>
+    <fieldset id="html-filters">
+        <input type="checkbox" id="html-month" class="js-month" checked="true">
+        <label for="html-month">Month</label>
+        <input type="checkbox" id="html-day" class="js-day" checked="true">
+        <label for="html-day">Day</label>
+        <input type="checkbox" id="html-year" class="js-year" checked="true">
+        <label for="html-year">Year</label>
+    </fieldset>
+</details>
 <script>
 /****************************************************************************/
 const monthElement = document.querySelector(".js-month");
@@ -21,6 +46,66 @@ const dayElement = document.querySelector(".js-day");
 const yearElement = document.querySelector(".js-year");
 const dateElement = document.querySelector(".js-date");
 const timerElement = document.querySelector(".js-timer");
+const resultElement = document.querySelector(".js-result");
+const newDateButtonElement = document.querySelector(".js-new-date-button");
+const guessElement = document.querySelector(".js-guess");
+const submitGuessButtonElement = document.querySelector(".js-submit-guess-button");
+
+let enterKeyHeld = false;
+newDateButtonElement.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        enterKeyHeld = event.repeat;
+    }
+});
+
+newDateButtonElement.addEventListener("click", (event) => {
+    if (!enterKeyHeld) {
+        startGame();
+    }
+});
+
+guessElement.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.repeat) {
+        stopGame();
+        event.preventDefault();
+    }
+});
+
+submitGuessButtonElement.addEventListener("click", () => {
+    stopGame();
+});
+
+function startGame() {
+    disable(newDateButtonElement);
+    enable(guessElement)
+    enable(submitGuessButtonElement);
+    guessElement.focus();
+    dateElement.textContent = date.randomString();
+    resultElement.textContent = ""; 
+    guessElement.value = "";
+    timer.start();
+}
+
+function stopGame() {
+    timer.stop();
+    enable(newDateButtonElement);
+    disable(guessElement);
+    disable(submitGuessButtonElement);
+    newDateButtonElement.focus();
+    resultElement.textContent = date.day() === parseInt(guessElement.value)
+        ? "✅"
+        : `❌ ${date.dayString()}`; 
+}
+
+function enable(element) {
+    element.removeAttribute("disabled");
+}
+
+function disable(element) {
+    element.setAttribute("disabled", "disabled");
+}
+
+/* Timer */
 
 const timer = {
     start: function () {
@@ -40,25 +125,6 @@ const timer = {
         }
     }
 }
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === " ") {
-        timer.stop();
-    }
-});
-
-let canRestartTimer = true;
-document.addEventListener("keyup", (event) => {
-    if (event.key === " " && document.activeElement === document.body) {
-        if (canRestartTimer) {
-            dateElement.textContent = randomDateString();
-            timer.start()
-            canRestartTimer = false;
-        } else {
-            canRestartTimer = true;
-        }
-    }
-});
 
 function updateTimerElement(elapsedTime) {
     const elapsedMillis = Math.floor(elapsedTime) % 1000;
@@ -90,50 +156,53 @@ const monthNames = [
     "July", "August", "September", "October", "November", "December",
 ];
 const monthLengths = [
-    12, 31, 28, 31, 30, 31, 30,
+    31, 31, 28, 31, 30, 31, 30,
     31, 31, 30, 31, 30, 31,
-]
+];
 const calendarStart = {
     year: 1582,
     month: 10,
     day: 15,
 };
 
-function randomDateString() {
-    const year = yearElement.checked ? randomYear() : undefined;
-    const month = monthElement.checked ? randomMonth(year) : undefined;
-    const day = dayElement.checked ? randomDay({year, month}) : undefined;
-    
-    let dateSequence = [];
-    if (monthElement.checked) {
-        dateSequence.push(monthNames[month]);
-    }
-    if (dayElement.checked) {
-        dateSequence.push(day);
-    }
-    if (yearElement.checked) {
-        dateSequence.push(year);
-    }
-    
-    return dateSequence.join(" ");
-}
+const defaults = {
+    year: 1600,
+    month: 1,
+    day: 1,
+};
 
-function randomRangeInclusive(min, max) {
-    return Math.floor(min + Math.random() * (max - min + 1));
-}
+const date = {
+    randomString: function () {
+        const year = yearElement.checked ? randomYear() : defaults.year;
+        const month = monthElement.checked ? randomMonth(year) : defaults.month;
+        const day = dayElement.checked ? randomDay({year, month}) : defaults.day;
+        this.date = new Date(year, month, day);
+        return this.date.toLocaleDateString(undefined, {
+            ...(yearElement.checked ? {year: "numeric"} : {}),
+            ...(monthElement.checked ? {month: "long"} : {}),
+            ...(dayElement.checked ? {day: "numeric"} : {}),
+        });
+    },
+    day: function() {
+        return this.date.getDay();
+    },
+    dayString: function() {
+        return this.date.toLocaleDateString(undefined, {weekday: "long"});
+    },
+};
 
 function randomYear() {
     return randomRangeInclusive(calendarStart.year, 3000);
 }
 
-function randomMonth(year = undefined) {
+function randomMonth(year = defaults.year) {
     if (year === calendarStart.year) {
         return randomRangeInclusive(calendarStart.month, 12);
     } else {
         return randomRangeInclusive(1, 12);
     }
 }
-function randomDay({year = undefined, month = 1} = {}) {
+function randomDay({year = defaults.year, month = defaults.month} = {}) {
     if (year === calendarStart.year) {
         return randomRangeInclusive(calendarStart.day, monthLengths[month]);
     } else if (month === 2 && isLeapYear(year)) {
@@ -141,6 +210,10 @@ function randomDay({year = undefined, month = 1} = {}) {
     } else {
         return randomRangeInclusive(1, monthLengths[month]);
     }
+}
+
+function randomRangeInclusive(min, max) {
+    return Math.floor(min + Math.random() * (max - min + 1));
 }
 
 function isLeapYear(year) {
