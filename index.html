@@ -25,27 +25,51 @@
 <div>
     <output class="js-result"></output>
 </div>
-<details>
-    <summary>Settings</summary>
-    <fieldset id="html-filters">
-        <input type="checkbox" id="html-month" class="js-month" checked="true">
-        <label for="html-month">Month</label>
-        <input type="checkbox" id="html-day" class="js-day" checked="true">
-        <label for="html-day">Day</label>
-        <input type="checkbox" id="html-year" class="js-year" checked="true">
-        <label for="html-year">Year</label>
-    </fieldset>
-</details>
+<fieldset class="js-settings">
+    <legend>Settings</legend>
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    <input type="checkbox" id="html-month" class="js-month" checked="true">
+                    <label for="html-month">Month</label>
+                <td>
+                    <input type="checkbox" id="html-day" class="js-day" checked="true">
+                    <label for="html-day">Day</label>
+                <td>
+                    <input type="checkbox" id="html-year" class="js-year" checked="true">
+                    <label for="html-year">Year</label>
+        <tbody>
+            <tr>
+                <td>
+                    <label for="html-month-format">format:</label>
+                    <select id="html-month-format" class="js-month-format">
+                        <option value="long">long</option>
+                        <option value="short">short</option>
+                        <option value="2-digit">2-digit</option>
+                        <option value="numeric">numeric</option>
+                    </select>
+                <td>
+                    <label for="html-day-format">format:</label>
+                    <select id="html-day-format" class="js-day-format">
+                        <option value="numeric">numeric</option>
+                        <option value="2-digit">2-digit</option>
+                    </select>
+    </table>
+</fieldset>
 <script>
 /****************************************************************************/
+const dateElement = document.querySelector(".js-date");
+const timerElement = document.querySelector(".js-timer");
+const newDateButtonElement = document.querySelector(".js-new-date-button");
+const guessElement = document.querySelector(".js-guess");
+const resultElement = document.querySelector(".js-result");
+const settingsElement = document.querySelector(".js-settings");
 const monthElement = document.querySelector(".js-month");
 const dayElement = document.querySelector(".js-day");
 const yearElement = document.querySelector(".js-year");
-const dateElement = document.querySelector(".js-date");
-const timerElement = document.querySelector(".js-timer");
-const resultElement = document.querySelector(".js-result");
-const newDateButtonElement = document.querySelector(".js-new-date-button");
-const guessElement = document.querySelector(".js-guess");
+const monthFormatElement = document.querySelector(".js-month-format");
+const dayFormatElement = document.querySelector(".js-day-format");
 
 let enterKeyHeld = false;
 newDateButtonElement.addEventListener("keydown", (event) => {
@@ -67,13 +91,34 @@ guessElement.addEventListener("keydown", (event) => {
     }
 });
 
-guessElement.addEventListener("change", (event) => {
+guessElement.addEventListener("change", () => {
     stopGame();
+});
+
+monthElement.addEventListener("change", () => {
+    dateElement.textContent = date.string() ?? dateElement.textContent;
+});
+
+dayElement.addEventListener("change", () => {
+    dateElement.textContent = date.string() ?? dateElement.textContent;
+});
+
+yearElement.addEventListener("change", () => {
+    dateElement.textContent = date.string() ?? dateElement.textContent;
+});
+
+monthFormatElement.addEventListener("change", () => {
+    dateElement.textContent = date.string() ?? dateElement.textContent;
+});
+
+dayFormatElement.addEventListener("change", () => {
+    dateElement.textContent = date.string() ?? dateElement.textContent;
 });
 
 function startGame() {
     disable(newDateButtonElement);
     enable(guessElement)
+    disable(settingsElement);
     guessElement.focus();
     dateElement.textContent = date.randomString();
     resultElement.textContent = ""; 
@@ -85,6 +130,7 @@ function stopGame() {
     timer.stop();
     enable(newDateButtonElement);
     disable(guessElement);
+    enable(settingsElement);
     newDateButtonElement.focus();
     resultElement.textContent = date.day() === parseInt(guessElement.value)
         ? "✅"
@@ -149,6 +195,7 @@ const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
 ];
+
 const monthLengths = [
     31, 28, 31, 30, 31, 30,
     31, 31, 30, 31, 30, 31,
@@ -166,22 +213,29 @@ const defaults = {
 };
 
 const date = {
-    randomString: function () {
+    randomString: function() {
         const year = yearElement.checked ? randomYear() : defaults.year;
         const monthIndex = monthElement.checked ? randomMonthIndex(year) : defaults.monthIndex;
         const day = dayElement.checked ? randomDay(year, monthIndex) : defaults.day;
         this.date = new Date(year, monthIndex, day);
-        return this.date.toLocaleDateString(undefined, {
+        return this.string();
+    },
+    string: function() {
+        return this.date?.toLocaleDateString(undefined, {
             ...(yearElement.checked ? {year: "numeric"} : {}),
-            ...(monthElement.checked ? {month: "long"} : {}),
-            ...(dayElement.checked ? {day: "numeric"} : {}),
-        });
+            ...(monthElement.checked ? {month: monthFormatElement.value} : {}),
+            ...(dayElement.checked ? {day: dayFormatElement.value} : {}),
+        }) ?? [
+            ...(monthElement.checked ? ["Month"] : []),
+            ...(dayElement.checked ? ["Day"] : []),
+            ...(yearElement.checked ? ["Year"] : []),
+        ].join(" ");
     },
     day: function() {
-        return this.date.getDay();
+        return this.date?.getDay();
     },
     dayString: function() {
-        return this.date.toLocaleDateString(undefined, {weekday: "long"});
+        return this.date?.toLocaleDateString(undefined, {weekday: "long"});
     },
 };
 
