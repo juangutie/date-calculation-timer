@@ -1,9 +1,9 @@
 import {
-    monthElement,
     dayElement,
-    yearElement,
-    monthFormatElement,
     dayFormatElement,
+    monthElement,
+    monthFormatElement,
+    yearElement,
 } from "./elements.js"
 
 const monthNames = [
@@ -27,7 +27,7 @@ const defaults = {
     day: 7,
 };
 
-export default {
+export const date = {
     randomString: function() {
         const year = yearElement.checked ? randomYear() : defaults.year;
         const monthIndex = monthElement.checked ? randomMonthIndex(year) : defaults.monthIndex;

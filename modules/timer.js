@@ -1,6 +1,6 @@
 import { timerElement } from "./elements.js";
 
-export default {
+export const timer = {
     start: function () {
         const animationStartTime = document.timeline.currentTime;
         this.performanceStartTime = performance.now();
