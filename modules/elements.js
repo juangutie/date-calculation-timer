@@ -1,0 +1,11 @@
+export const dateElement = document.querySelector(".js-date");
+export const timerElement = document.querySelector(".js-timer");
+export const newDateButtonElement = document.querySelector(".js-new-date-button");
+export const guessElement = document.querySelector(".js-guess");
+export const resultElement = document.querySelector(".js-result");
+export const settingsElement = document.querySelector(".js-settings");
+export const monthElement = document.querySelector(".js-month");
+export const dayElement = document.querySelector(".js-day");
+export const yearElement = document.querySelector(".js-year");
+export const monthFormatElement = document.querySelector(".js-month-format");
+export const dayFormatElement = document.querySelector(".js-day-format");
