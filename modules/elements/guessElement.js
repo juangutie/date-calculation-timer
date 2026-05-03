@@ -7,7 +7,7 @@ import {
 import { timer } from "../timer.js";
 import { enable, disable } from "../utils.js";
 
-export const guessElement = document.querySelector(".js-guess");
+export const guessElement = document.querySelector("[data-guess]");
 
 guessElement.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.repeat) {

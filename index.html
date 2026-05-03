@@ -1,17 +1,17 @@
 <!doctype html>
 <title>Date Trainer</title>
 <div>
-    <output class="js-date">Month Day Year</output>
+    <output data-date>Month Day Year</output>
 </div>
 <div>
-    <output class="js-timer">0:000</output>
+    <output data-timer>0:000</output>
 </div>
 <div>
-    <button class="js-new-date-button">New Date</button>
+    <button data-new-date-button>New Date</button>
 </div>
 <div>
-    <label for="html-guess">Guess:</label>
-    <select id="html-guess" class="js-guess" disabled>
+    <label for="guess">Guess:</label>
+    <select id="guess" data-guess disabled>
         <option value=""></option>
         <option value="0">0 - Sunday</option>
         <option value="1">1 - Monday</option>
@@ -23,18 +23,18 @@
     </select>
 </div>
 <div>
-    <output class="js-result"></output>
+    <output data-result></output>
 </div>
-<fieldset class="js-settings">
+<fieldset data-settings>
     <legend>Settings</legend>
     <ul>
         <li>
-            <input type="checkbox" id="html-month" class="js-month" checked="true">
-            <label for="html-month">Month</label>
+            <input type="checkbox" id="month" data-month checked="true">
+            <label for="month">Month</label>
             <ul>
                 <li>
-                    <label for="html-month-format">format:</label>
-                    <select id="html-month-format" class="js-month-format">
+                    <label for="month-format">format:</label>
+                    <select id="month-format" data-month-format>
                     <option value="long">long</option>
                     <option value="short">short</option>
                     <option value="2-digit">2-digit</option>
@@ -47,12 +47,12 @@
                     <textarea disabled></textarea>
             </ul>
         <li>
-            <input type="checkbox" id="html-day" class="js-day" checked="true">
-            <label for="html-day">Day</label>
+            <input type="checkbox" id="day" data-day checked="true">
+            <label for="day">Day</label>
             <ul>
                 <li>
-                    <label for="html-day-format">format:</label>
-                    <select id="html-day-format" class="js-day-format">
+                    <label for="day-format">format:</label>
+                    <select id="day-format" data-day-format>
                         <option value="numeric">numeric</option>
                         <option value="2-digit">2-digit</option>
                     </select>
@@ -63,8 +63,8 @@
                     <textarea disabled></textarea>
             </ul>
     <li>
-        <input type="checkbox" id="html-year" class="js-year" checked="true">
-        <label for="html-year">Year</label>
+        <input type="checkbox" id="year" data-year checked="true">
+        <label for="year">Year</label>
         <ul>
             <li>
                 <input type="checkbox" disabled>
