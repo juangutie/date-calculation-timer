@@ -6,6 +6,7 @@ import {
     timerElement,
 } from "elements";
 import { 
+    StartGameEvent,
     disableControl,
     enableControl,
     getRandomDateString,
@@ -22,19 +23,8 @@ newDateButtonElement.addEventListener("keydown", (event) => {
     }
 });
 
-newDateButtonElement.addEventListener("click", () => {
+newDateButtonElement.addEventListener("click", (event) => {
     if (!enterKeyHeld) {
-        startGame();
+        event.target.dispatchEvent(StartGameEvent);
     }
 });
-
-function startGame() {
-    disableControl(newDateButtonElement);
-    enableControl(guessElement)
-    disableControl(settingsElement);
-    guessElement.focus();
-    dateElement.textContent = getRandomDateString();
-    resultElement.textContent = ""; 
-    guessElement.value = "";
-    startTimer((timeString) => timerElement.textContent = timeString);
-}

@@ -1,8 +1,11 @@
 import { dateElement } from "elements";
-import { getDateString } from "utils";
+import { 
+    UpdateFormatEvent,
+    getDateString,
+} from "utils";
 
 export const dayElement = document.querySelector("[data-day]");
 
-dayElement.addEventListener("change", () => {
-    dateElement.textContent = getDateString({useDay: dayElement.checked});
+dayElement.addEventListener("change", (event) => {
+    event.target.dispatchEvent(UpdateFormatEvent);
 });
