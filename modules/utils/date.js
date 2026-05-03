@@ -29,6 +29,52 @@ export function dateToString(date, {
     ].join(" ");
 }
 
+
+export function parseMonths(str) {
+    return str
+        .replaceAll(" ", "")
+        .toLowerCase()
+        .split(",")
+        .map((monthName) => monthNames.indexOf(monthName) % 12)
+        .filter((monthIndex) => monthIndex !== -1)
+}
+
+export function parseDays(str) {
+    return str
+        .replaceAll(" ", "")
+        .split(",")
+        .map((dayStr) => parseInt(dayStr, 10))
+        .filter((day) => day !== NaN);
+}
+
+export function reformatMonthsString(str, monthFormat) {
+    return parseMonths(str)
+        .map((monthIndex) => dateToString(
+            new Date(defaults.year, monthIndex),
+            {
+                useYear: false,
+                useMonth: true,
+                useDay: false,
+                monthFormat,
+            }
+        ))
+        .join(", ");
+}
+
+export function reformatDaysString(str, dayFormat) {
+    return parseDays(str)
+        .map((day) => dateToString(
+            new Date(defaults.year, defaults.monthIndex, day),
+            {
+                useYear: false,
+                useMonth: false,
+                useDay: true,
+                dayFormat,
+            }
+        ))
+        .join(", ");
+}
+
 export function getDayIndex(date) {
     return date?.getDay();
 }

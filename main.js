@@ -2,6 +2,8 @@ import "elements";
 import {
     dateElement,
     dayCheckboxElement,
+    dayFilterElement,
+    dayFilterCheckboxElement,
     dayFormatElement,
     guessElement,
     monthCheckboxElement,
@@ -25,10 +27,11 @@ import {
     enableControl,
     getDayIndex,
     getDayString,
-    monthNames,
+    parseDays,
     randomDate,
     startTimer,
     stopTimer,
+    parseMonths,
 } from "utils";
 
 let date;
@@ -51,21 +54,13 @@ document.addEventListener(StopGameEvent.type, () => {
     disableControl(guessElement);
     enableControl(settingsElement);
     newDateButtonElement.focus();
-    resultElement.textContent = getDayIndex(date) === parseInt(guessElement.value)
+    resultElement.textContent = getDayIndex(date) === parseInt(guessElement.value, 10)
         ? "✅"
         : `❌ ${getDayString(date)}`;
 });
 
 document.addEventListener(UpdateFormatEvent.type, () => {
     dateElement.textContent = dateToString(date, getSettings());
-    monthFilterElement.textContent = getMonthFilterValues()
-        .map((monthIndex) => new Date(1700, monthIndex, 7))
-        .map((date) => dateToString(date, {
-            ...getSettings(),
-            useYear: false,
-            useMonth: true,
-            useDay: false,
-        })).join(", ");
 });
 
 function getSettings() {
@@ -75,16 +70,13 @@ function getSettings() {
         useDay: dayCheckboxElement.checked,
         monthFormat: monthFormatElement.value,
         dayFormat: dayFormatElement.value,
-        ...(monthFilterCheckboxElement.checked ? {monthFilter: getMonthFilterValues()} : {}),
+        ...(monthFilterCheckboxElement.checked 
+            ? {monthFilter: parseMonths(monthFilterElement.value)}
+            : {}
+        ),
+        ...(dayFilterCheckboxElement.checked 
+            ? {dayFilter: parseDays(dayFilterElement.value)}
+            : {}
+        ),
     }
-}
-
-function getMonthFilterValues() {
-    return monthFilterElement
-        .value
-        .replaceAll(" ", "")
-        .toLowerCase()
-        .split(",")
-        .filter((monthName) => monthNames.includes(monthName))
-        .map((monthName) => monthNames.indexOf(monthName) % 12);
 }
