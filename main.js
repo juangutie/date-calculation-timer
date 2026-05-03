@@ -1,16 +1,16 @@
 import "elements";
 import {
     dateElement,
-    dayElement,
+    dayCheckboxElement,
     dayFormatElement,
     guessElement,
-    monthElement,
+    monthCheckboxElement,
     monthFormatElement,
     newDateButtonElement,
     resultElement,
     settingsElement,
     timerElement,
-    yearElement,
+    yearCheckboxElement,
 } from "elements";
 import {
     StartGameEvent,
@@ -52,9 +52,9 @@ document.addEventListener(StopGameEvent.type, () => {
 
 document.addEventListener(UpdateFormatEvent.type, () => {
     dateElement.textContent = getDateString({
-        useYear: yearElement.checked,
-        useMonth: monthElement.checked,
-        useDay: dayElement.checked,
+        useYear: yearCheckboxElement.checked,
+        useMonth: monthCheckboxElement.checked,
+        useDay: dayCheckboxElement.checked,
         monthFormat: monthFormatElement.value,
         dayFormat: dayFormatElement.value,
     });

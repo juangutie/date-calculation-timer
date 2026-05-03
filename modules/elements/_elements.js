@@ -1,10 +1,10 @@
-export { dayElement } from "elements/dayElement.js";
+export { dayCheckboxElement } from "elements/dayCheckboxElement.js";
 export { dayFormatElement } from "elements/dayFormatElement.js";
 export { guessElement } from "elements/guessElement.js";
-export { monthElement } from "elements/monthElement.js";
+export { monthCheckboxElement } from "elements/monthCheckboxElement.js";
 export { monthFormatElement } from "elements/monthFormatElement.js";
 export { newDateButtonElement } from "elements/newDateButtonElement.js";
-export { yearElement } from "elements/yearElement.js";
+export { yearCheckboxElement } from "elements/yearCheckboxElement.js";
 export const dateElement = document.querySelector("[data-date]");
 export const resultElement = document.querySelector("[data-result]");
 export const settingsElement = document.querySelector("[data-settings]");
