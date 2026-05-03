@@ -1,13 +1,17 @@
-import { randomDateString } from "../date.js";
 import {
     dateElement,
     guessElement,
     resultElement,
     settingsElement,
     timerElement,
-} from "../elements.js";
-import { startTimer, stopTimer } from "../timer.js";
-import { enable, disable } from "../utils.js";
+} from "elements";
+import { 
+    disable,
+    enable,
+    randomDateString,
+    startTimer,
+    stopTimer,
+} from "utils";
 
 export const newDateButtonElement = document.querySelector("[data-new-date-button]");
 

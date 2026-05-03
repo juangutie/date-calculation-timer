@@ -1,11 +1,15 @@
-import { dayIndex, dayString } from "../date.js";
 import {
     newDateButtonElement,
     resultElement,
     settingsElement,
-} from "../elements.js";
-import { stopTimer } from "../timer.js";
-import { enable, disable } from "../utils.js";
+} from "elements";
+import {
+    dayIndex,
+    dayString,
+    disable,
+    enable,
+    stopTimer,
+} from "utils";
 
 export const guessElement = document.querySelector("[data-guess]");
 

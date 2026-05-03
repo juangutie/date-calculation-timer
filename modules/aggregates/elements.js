@@ -1,0 +1,11 @@
+export { dayElement } from "../dayElement.js";
+export { dayFormatElement } from "../dayFormatElement.js";
+export { guessElement } from "../guessElement.js";
+export { monthElement } from "../monthElement.js";
+export { monthFormatElement } from "../monthFormatElement.js";
+export { newDateButtonElement } from "../newDateButtonElement.js";
+export { yearElement } from "../yearElement.js";
+export const dateElement = document.querySelector("[data-date]");
+export const resultElement = document.querySelector("[data-result]");
+export const settingsElement = document.querySelector("[data-settings]");
+export const timerElement = document.querySelector("[data-timer]");

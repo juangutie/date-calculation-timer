@@ -1,5 +1,5 @@
-import { dateString } from "../date.js";
-import { dateElement } from "../elements.js";
+import { dateString } from "utils";
+import { dateElement } from "elements";
 
 export const dayElement = document.querySelector("[data-day]");
 
