@@ -1,5 +1,5 @@
 export * from "elements/dayCheckboxElement.js";
-export * from "elements/dayFilterCheckboxElement.js"
+export * from "elements/dayFilterCheckboxElement.js";
 export * from "elements/dayFormatElement.js";
 export * from "elements/guessElement.js";
 export * from "elements/monthCheckboxElement.js";

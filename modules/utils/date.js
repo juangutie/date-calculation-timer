@@ -43,7 +43,7 @@ export function parseMonths(str) {
         .toLowerCase()
         .split(",")
         .map((monthName) => monthNames.indexOf(monthName) % 12)
-        .filter((monthIndex) => monthIndex !== -1)
+        .filter((monthIndex) => monthIndex !== -1);
 }
 
 export function parseYears(str) {

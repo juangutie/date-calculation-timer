@@ -8,7 +8,7 @@ export function startTimer(callback) {
     performanceStartTime = performance.now();
     animationRequestId = requestAnimationFrame(function step(currentTime) {
         animationRequestId = requestAnimationFrame(step);
-        savedCallback(toString(currentTime - animationStartTime));
+        savedCallback(formatToString(currentTime - animationStartTime));
     }.bind(this));
 }
 
@@ -17,11 +17,11 @@ export function stopTimer() {
         const stopTime = performance.now();
         cancelAnimationFrame(animationRequestId);
         animationRequestId = undefined;
-        savedCallback(toString(stopTime - performanceStartTime));
+        savedCallback(formatToString(stopTime - performanceStartTime));
     }
 }
 
-function toString(elapsedTime) {
+function formatToString(elapsedTime) {
     const elapsedMillis = Math.floor(elapsedTime) % 1000;
     const elapsedSeconds = Math.floor(elapsedTime / 1000) % 60;
     const elapsedMinutes = Math.floor(elapsedTime / 60000) % 60;
@@ -41,5 +41,5 @@ function toString(elapsedTime) {
         const ss = String(elapsedSeconds);
         const mss = String(elapsedMillis).padStart(3, "0");
         return `${ss}.${mss}`;
-    };
+    }
 }
