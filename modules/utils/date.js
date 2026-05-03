@@ -53,11 +53,6 @@ const monthLengths = [
     31, 28, 31, 30, 31, 30,
     31, 31, 30, 31, 30, 31,
 ];
-const calendarStart = {
-    year: 1582,
-    monthIndex: monthNames.indexOf("October"),
-    day: 15,
-};
 
 const defaults = {
     year: 1700,
@@ -66,20 +61,14 @@ const defaults = {
 };
 
 function randomYear() {
-    return randomRangeInclusive(calendarStart.year, 3000);
+    return randomRangeInclusive(1583, 3000);
 }
 
 function randomMonthIndex(year) {
-    if (year === calendarStart.year) {
-        return randomRangeInclusive(calendarStart.monthIndex, monthNames.length - 1);
-    } else {
-        return randomRangeInclusive(0, monthNames.length - 1);
-    }
+    return randomRangeInclusive(0, monthNames.length - 1);
 }
 function randomDay(year, monthIndex) {
-    if (year === calendarStart.year) {
-        return randomRangeInclusive(calendarStart.day, monthLengths[monthIndex]);
-    } else if (monthIndex === monthNames.indexOf("February") && isLeapYear(year)) {
+    if (monthIndex === monthNames.indexOf("February") && isLeapYear(year)) {
         return randomRangeInclusive(1, monthLengths[monthIndex] + 1);
     } else {
         return randomRangeInclusive(1, monthLengths[monthIndex]);
