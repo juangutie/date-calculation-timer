@@ -34,7 +34,7 @@ export function parseDays(str) {
         .replaceAll(" ", "")
         .split(",")
         .map((dayStr) => parseInt(dayStr, 10))
-        .filter((day) => day !== NaN);
+        .filter((day) => !Number.isNaN(day));
 }
 
 export function parseMonths(str) {
@@ -51,7 +51,7 @@ export function parseYears(str) {
         .replaceAll(" ", "")
         .split(",")
         .map((yearStr) => parseInt(yearStr, 10) % 100)
-        .filter((year) => year !== NaN)
+        .filter((year) => !Number.isNaN(year));
 }
 
 export function reformatDaysString(str, dayFormat) {
