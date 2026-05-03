@@ -1,8 +1,4 @@
-import { dateElement } from "elements";
-import { 
-    UpdateFormatEvent,
-    getDateString,
-} from "utils";
+import { UpdateFormatEvent } from "events";
 
 export const dayElement = document.querySelector("[data-day]");
 

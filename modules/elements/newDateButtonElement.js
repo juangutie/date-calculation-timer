@@ -1,18 +1,4 @@
-import {
-    dateElement,
-    guessElement,
-    resultElement,
-    settingsElement,
-    timerElement,
-} from "elements";
-import { 
-    StartGameEvent,
-    disableControl,
-    enableControl,
-    getRandomDateString,
-    startTimer,
-    stopTimer,
-} from "utils";
+import { StartGameEvent } from "events";
 
 export const newDateButtonElement = document.querySelector("[data-new-date-button]");
 

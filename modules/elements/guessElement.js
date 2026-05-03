@@ -1,16 +1,4 @@
-import {
-    newDateButtonElement,
-    resultElement,
-    settingsElement,
-} from "elements";
-import {
-    StopGameEvent,
-    disableControl,
-    enableControl,
-    getDayIndex,
-    getDayString,
-    stopTimer,
-} from "utils";
+import { StopGameEvent } from "events";
 
 export const guessElement = document.querySelector("[data-guess]");
 

@@ -16,6 +16,8 @@ import {
     StartGameEvent,
     StopGameEvent,
     UpdateFormatEvent,
+} from "events";
+import {
     disableControl,
     enableControl,
     getDateString,
