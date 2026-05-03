@@ -30,11 +30,11 @@ import {
 
 document.addEventListener(StartGameEvent.type, () => {
     disableControl(newDateButtonElement);
-    enableControl(guessElement)
+    enableControl(guessElement);
     disableControl(settingsElement);
     guessElement.focus();
     dateElement.textContent = getRandomDateString();
-    resultElement.textContent = ""; 
+    resultElement.textContent = "";
     guessElement.value = "";
     startTimer((timeString) => timerElement.textContent = timeString);
 });
@@ -47,7 +47,7 @@ document.addEventListener(StopGameEvent.type, () => {
     newDateButtonElement.focus();
     resultElement.textContent = getDayIndex() === parseInt(guessElement.value)
         ? "✅"
-        : `❌ ${getDayString()}`; 
+        : `❌ ${getDayString()}`;
 });
 
 document.addEventListener(UpdateFormatEvent.type, () => {
