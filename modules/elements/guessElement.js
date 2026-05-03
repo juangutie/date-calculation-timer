@@ -1,10 +1,10 @@
-import { date } from "../date.js";
+import { dayIndex, dayString } from "../date.js";
 import {
     newDateButtonElement,
     resultElement,
     settingsElement,
 } from "../elements.js";
-import { timer } from "../timer.js";
+import { stopTimer } from "../timer.js";
 import { enable, disable } from "../utils.js";
 
 export const guessElement = document.querySelector("[data-guess]");
@@ -21,12 +21,12 @@ guessElement.addEventListener("change", () => {
 });
 
 function stopGame() {
-    timer.stop();
+    stopTimer();
     enable(newDateButtonElement);
     disable(guessElement);
     enable(settingsElement);
     newDateButtonElement.focus();
-    resultElement.textContent = date.day() === parseInt(guessElement.value)
+    resultElement.textContent = dayIndex() === parseInt(guessElement.value)
         ? "✅"
-        : `❌ ${date.dayString()}`; 
+        : `❌ ${dayString()}`; 
 }

@@ -1,25 +1,27 @@
-import { timerElement } from "./elements.js";
+let performanceStartTime;
+let animationRequestId;
+let savedCallback;
 
-export const timer = {
-    start: function () {
-        const animationStartTime = document.timeline.currentTime;
-        this.performanceStartTime = performance.now();
-        this.animationRequestId = requestAnimationFrame(function step(currentTime) {
-            this.animationRequestId = requestAnimationFrame(step.bind(this));
-            updateTimerElement(currentTime - animationStartTime);
-        }.bind(this));
-    },
-    stop: function() {
-        if (this.animationRequestId !== undefined) {
-            const stopTime = performance.now();
-            cancelAnimationFrame(this.animationRequestId);
-            this.animationRequestId = undefined;
-            updateTimerElement(stopTime - this.performanceStartTime);
-        }
+export function startTimer(callback) {
+    const animationStartTime = document.timeline.currentTime;
+    savedCallback = callback;
+    performanceStartTime = performance.now();
+    animationRequestId = requestAnimationFrame(function step(currentTime) {
+        animationRequestId = requestAnimationFrame(step);
+        savedCallback(toString(currentTime - animationStartTime));
+    }.bind(this));
+}
+
+export function stopTimer() {
+    if (animationRequestId !== undefined) {
+        const stopTime = performance.now();
+        cancelAnimationFrame(animationRequestId);
+        animationRequestId = undefined;
+        savedCallback(toString(stopTime - performanceStartTime));
     }
 }
 
-function updateTimerElement(elapsedTime) {
+function toString(elapsedTime) {
     const elapsedMillis = Math.floor(elapsedTime) % 1000;
     const elapsedSeconds = Math.floor(elapsedTime / 1000) % 60;
     const elapsedMinutes = Math.floor(elapsedTime / 60000) % 60;
@@ -29,15 +31,15 @@ function updateTimerElement(elapsedTime) {
         const mm = String(elapsedMinutes).padStart(2, "0");
         const ss = String(elapsedSeconds).padStart(2, "0");
         const mss = String(elapsedMillis).padStart(3, "0")
-        timerElement.textContent = `${hh}:${mm}:${ss}.${mss}`;
+        return `${hh}:${mm}:${ss}.${mss}`;
     } else if (elapsedMinutes > 0) {
         const mm = String(elapsedMinutes);
         const ss = String(elapsedSeconds).padStart(2, "0");
         const mss = String(elapsedMillis).padStart(3, "0")
-        timerElement.textContent = `${mm}:${ss}.${mss}`;
+        return `${mm}:${ss}.${mss}`;
     } else {
         const ss = String(elapsedSeconds);
         const mss = String(elapsedMillis).padStart(3, "0")
-        timerElement.textContent = `${ss}.${mss}`;
+        return `${ss}.${mss}`;
     };
 }

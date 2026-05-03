@@ -1,8 +1,8 @@
-import { date } from "../date.js";
+import { dateString } from "../date.js";
 import { dateElement } from "../elements.js";
 
 export const monthElement = document.querySelector("[data-month]");
 
 monthElement.addEventListener("change", () => {
-    dateElement.textContent = date.string() ?? dateElement.textContent;
+    dateElement.textContent = dateString({useMonth: monthElement.checked});
 });

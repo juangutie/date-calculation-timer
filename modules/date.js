@@ -1,10 +1,48 @@
-import {
-    dayElement,
-    dayFormatElement,
-    monthElement,
-    monthFormatElement,
-    yearElement,
-} from "./elements.js"
+let date;
+let useYear = true;
+let useMonth = true;
+let useDay = true;
+let monthFormat = "long";
+let dayFormat = "numeric";
+
+export function randomDateString() {
+    const year = useYear ? randomYear() : defaults.year;
+    const monthIndex = useMonth ? randomMonthIndex(year) : defaults.monthIndex;
+    const day = useDay ? randomDay(year, monthIndex) : defaults.day;
+    date = new Date(year, monthIndex, day);
+    return dateString();
+}
+
+export function dateString({
+        useYear: _useYear = useYear,
+        useMonth: _useMonth = useMonth,
+        useDay: _useDay = useDay,
+        monthFormat: _monthFormat = monthFormat,
+        dayFormat: _dayFormat = dayFormat,
+    } = {}) {
+    useYear = _useYear;
+    useMonth = _useMonth;
+    useDay = _useDay;
+    monthFormat = _monthFormat;
+    dayFormat = _dayFormat;
+    return date?.toLocaleDateString(undefined, {
+        ...(useYear ? {year: "numeric"} : {}),
+        ...(useMonth ? {month: monthFormat} : {}),
+        ...(useDay ? {day: dayFormat} : {}),
+    }) ?? [
+        ...(useMonth ? ["Month"] : []),
+        ...(useDay ? ["Day"] : []),
+        ...(useYear ? ["Year"] : []),
+    ].join(" ");
+}
+
+export function dayIndex() {
+    return date?.getDay();
+}
+
+export function dayString() {
+    return date?.toLocaleDateString(undefined, {weekday: "long"});
+}
 
 const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -25,33 +63,6 @@ const defaults = {
     year: 1700,
     monthIndex: monthNames.indexOf("March"),
     day: 7,
-};
-
-export const date = {
-    randomString: function() {
-        const year = yearElement.checked ? randomYear() : defaults.year;
-        const monthIndex = monthElement.checked ? randomMonthIndex(year) : defaults.monthIndex;
-        const day = dayElement.checked ? randomDay(year, monthIndex) : defaults.day;
-        this.date = new Date(year, monthIndex, day);
-        return this.string();
-    },
-    string: function() {
-        return this.date?.toLocaleDateString(undefined, {
-            ...(yearElement.checked ? {year: "numeric"} : {}),
-            ...(monthElement.checked ? {month: monthFormatElement.value} : {}),
-            ...(dayElement.checked ? {day: dayFormatElement.value} : {}),
-        }) ?? [
-            ...(monthElement.checked ? ["Month"] : []),
-            ...(dayElement.checked ? ["Day"] : []),
-            ...(yearElement.checked ? ["Year"] : []),
-        ].join(" ");
-    },
-    day: function() {
-        return this.date?.getDay();
-    },
-    dayString: function() {
-        return this.date?.toLocaleDateString(undefined, {weekday: "long"});
-    },
 };
 
 function randomYear() {

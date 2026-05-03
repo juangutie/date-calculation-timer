@@ -1,11 +1,12 @@
-import { date } from "../date.js";
+import { randomDateString } from "../date.js";
 import {
     dateElement,
     guessElement,
     resultElement,
     settingsElement,
+    timerElement,
 } from "../elements.js";
-import { timer } from "../timer.js";
+import { startTimer, stopTimer } from "../timer.js";
 import { enable, disable } from "../utils.js";
 
 export const newDateButtonElement = document.querySelector("[data-new-date-button]");
@@ -28,8 +29,8 @@ function startGame() {
     enable(guessElement)
     disable(settingsElement);
     guessElement.focus();
-    dateElement.textContent = date.randomString();
+    dateElement.textContent = randomDateString();
     resultElement.textContent = ""; 
     guessElement.value = "";
-    timer.start();
+    startTimer((timeString) => timerElement.textContent = timeString);
 }
