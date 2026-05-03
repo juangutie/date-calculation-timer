@@ -4,7 +4,7 @@ export function randomDate({
         dayFilter,
     }) {
     const filteredDates = allDates.filter((date) => {
-        return (yearFilter?.includes(date.getFullYear()) ?? true)
+        return (yearFilter?.includes(date.getFullYear() % 100) ?? true)
             && (monthFilter?.includes(date.getMonth()) ?? true)
             && (dayFilter?.includes(date.getDate()) ?? true)
     });
@@ -29,6 +29,13 @@ export function dateToString(date, {
     ].join(" ");
 }
 
+export function parseDays(str) {
+    return str
+        .replaceAll(" ", "")
+        .split(",")
+        .map((dayStr) => parseInt(dayStr, 10))
+        .filter((day) => day !== NaN);
+}
 
 export function parseMonths(str) {
     return str
@@ -39,26 +46,12 @@ export function parseMonths(str) {
         .filter((monthIndex) => monthIndex !== -1)
 }
 
-export function parseDays(str) {
+export function parseYears(str) {
     return str
         .replaceAll(" ", "")
         .split(",")
-        .map((dayStr) => parseInt(dayStr, 10))
-        .filter((day) => day !== NaN);
-}
-
-export function reformatMonthsString(str, monthFormat) {
-    return parseMonths(str)
-        .map((monthIndex) => dateToString(
-            new Date(defaults.year, monthIndex),
-            {
-                useYear: false,
-                useMonth: true,
-                useDay: false,
-                monthFormat,
-            }
-        ))
-        .join(", ");
+        .map((yearStr) => parseInt(yearStr, 10) % 100)
+        .filter((year) => year !== NaN)
 }
 
 export function reformatDaysString(str, dayFormat) {
@@ -70,6 +63,20 @@ export function reformatDaysString(str, dayFormat) {
                 useMonth: false,
                 useDay: true,
                 dayFormat,
+            }
+        ))
+        .join(", ");
+}
+
+export function reformatMonthsString(str, monthFormat) {
+    return parseMonths(str)
+        .map((monthIndex) => dateToString(
+            new Date(defaults.year, monthIndex),
+            {
+                useYear: false,
+                useMonth: true,
+                useDay: false,
+                monthFormat,
             }
         ))
         .join(", ");

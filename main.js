@@ -2,19 +2,21 @@ import "elements";
 import {
     dateElement,
     dayCheckboxElement,
-    dayFilterElement,
     dayFilterCheckboxElement,
+    dayFilterElement,
     dayFormatElement,
     guessElement,
     monthCheckboxElement,
-    monthFilterElement,
     monthFilterCheckboxElement,
+    monthFilterElement,
     monthFormatElement,
     newDateButtonElement,
     resultElement,
     settingsElement,
     timerElement,
     yearCheckboxElement,
+    yearFilterCheckboxElement,
+    yearFilterElement,
 } from "elements";
 import {
     StartGameEvent,
@@ -28,10 +30,11 @@ import {
     getDayIndex,
     getDayString,
     parseDays,
+    parseMonths,
+    parseYears,
     randomDate,
     startTimer,
     stopTimer,
-    parseMonths,
 } from "utils";
 
 let date;
@@ -76,6 +79,10 @@ function getSettings() {
         ),
         ...(dayFilterCheckboxElement.checked 
             ? {dayFilter: parseDays(dayFilterElement.value)}
+            : {}
+        ),
+        ...(yearFilterCheckboxElement.checked 
+            ? {yearFilter: parseYears(yearFilterElement.value)}
             : {}
         ),
     }
