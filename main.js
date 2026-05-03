@@ -5,6 +5,8 @@ import {
     dayFormatElement,
     guessElement,
     monthCheckboxElement,
+    monthFilterElement,
+    monthFilterCheckboxElement,
     monthFormatElement,
     newDateButtonElement,
     resultElement,
@@ -24,6 +26,7 @@ import {
     getDayIndex,
     getDayString,
     getRandomDateString,
+    monthNames,
     startTimer,
     stopTimer,
 } from "utils";
@@ -33,7 +36,7 @@ document.addEventListener(StartGameEvent.type, () => {
     enableControl(guessElement);
     disableControl(settingsElement);
     guessElement.focus();
-    dateElement.textContent = getRandomDateString();
+    dateElement.textContent = getRandomDateString(getSettings());
     resultElement.textContent = "";
     guessElement.value = "";
     startTimer((timeString) => timerElement.textContent = timeString);
@@ -51,11 +54,26 @@ document.addEventListener(StopGameEvent.type, () => {
 });
 
 document.addEventListener(UpdateFormatEvent.type, () => {
-    dateElement.textContent = getDateString({
+    dateElement.textContent = getDateString(getSettings());
+});
+
+function getSettings() {
+    return {
         useYear: yearCheckboxElement.checked,
         useMonth: monthCheckboxElement.checked,
         useDay: dayCheckboxElement.checked,
         monthFormat: monthFormatElement.value,
         dayFormat: dayFormatElement.value,
-    });
-});
+        ...(monthFilterCheckboxElement.checked ? {monthFilter: getMonthFilterValues()} : {}),
+    }
+}
+
+function getMonthFilterValues() {
+    return monthFilterElement
+        .value
+        .replaceAll(" ", "")
+        .toLowerCase()
+        .split(",")
+        .filter((monthName) => monthNames.includes(monthName))
+        .map((monthName) => monthNames.indexOf(monthName));
+}

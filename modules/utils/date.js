@@ -1,30 +1,38 @@
 let date;
-let useYear = true;
-let useMonth = true;
-let useDay = true;
-let monthFormat = "long";
-let dayFormat = "numeric";
 
-export function getRandomDateString() {
-    const year = useYear ? randomYear() : defaults.year;
-    const monthIndex = useMonth ? randomMonthIndex(year) : defaults.monthIndex;
-    const day = useDay ? randomDay(year, monthIndex) : defaults.day;
-    date = new Date(year, monthIndex, day);
-    return getDateString();
+export function getRandomDateString(settings) {
+    const {
+        useYear,
+        useMonth,
+        useDay,
+        yearFilter,
+        monthFilter,
+        dayFilter
+    } = settings;
+    if (!useYear) {
+        yearFilter = defaults.year;
+    }
+    if (!useMonth) {
+        monthFilter = defaults.monthIndex;
+    }
+    if (!useDay) {
+        dayFilter = defaults.monthIndex;
+    }
+    date = randomDate({
+        yearFilter,
+        monthFilter,
+        dayFilter,
+    });
+    return getDateString(settings);
 }
 
 export function getDateString({
-        useYear: _useYear = useYear,
-        useMonth: _useMonth = useMonth,
-        useDay: _useDay = useDay,
-        monthFormat: _monthFormat = monthFormat,
-        dayFormat: _dayFormat = dayFormat,
-    } = {}) {
-    useYear = _useYear;
-    useMonth = _useMonth;
-    useDay = _useDay;
-    monthFormat = _monthFormat;
-    dayFormat = _dayFormat;
+        useYear,
+        useMonth,
+        useDay,
+        monthFormat,
+        dayFormat,
+    }) {
     return date?.toLocaleDateString(undefined, {
         ...(useYear ? {year: "numeric"} : {}),
         ...(useMonth ? {month: monthFormat} : {}),
@@ -44,9 +52,9 @@ export function getDayString() {
     return date?.toLocaleDateString(undefined, {weekday: "long"});
 }
 
-const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+export const monthNames = [
+    "january", "february", "march", "april", "may", "june",
+    "july", "august", "september", "october", "november", "december",
 ];
 
 const monthLengths = [
@@ -56,29 +64,37 @@ const monthLengths = [
 
 const defaults = {
     year: 1700,
-    monthIndex: monthNames.indexOf("March"),
+    monthIndex: monthNames.indexOf("march"),
     day: 7,
 };
 
-function randomYear() {
-    return randomRangeInclusive(1583, 3000);
-}
+const allDates = (() => {
+    const allDates = [];
 
-function randomMonthIndex(year) {
-    return randomRangeInclusive(0, monthNames.length - 1);
-}
-function randomDay(year, monthIndex) {
-    if (monthIndex === monthNames.indexOf("February") && isLeapYear(year)) {
-        return randomRangeInclusive(1, monthLengths[monthIndex] + 1);
-    } else {
-        return randomRangeInclusive(1, monthLengths[monthIndex]);
+    for (let year = 1583; year <= 3000; ++year) {
+        for (let monthIndex = 0; monthIndex <= 11; ++monthIndex) {
+            for (let day = 1; day <= monthLengths[monthIndex]; ++day) {
+                allDates.push(new Date(year, monthIndex, day));
+            }
+        }
     }
+
+    return allDates;
+})();
+
+function randomDate({
+        yearFilter,
+        monthFilter,
+        dayFilter,
+    }) {
+    const filteredDates = allDates.filter((date) => {
+        return (yearFilter?.includes(date.getFullYear()) ?? true)
+            && (monthFilter?.includes(date.getMonth()) ?? true)
+            && (dayFilter?.includes(date.getDate()) ?? true)
+    });
+    return randomFromArray(filteredDates);
 }
 
-function randomRangeInclusive(min, max) {
-    return Math.floor(min + Math.random() * (max - min + 1));
-}
-
-function isLeapYear(year) {
-    return (year % 4 === 0) && (year % 100 !== 0) || (year % 400 === 0);
+function randomFromArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
 }
