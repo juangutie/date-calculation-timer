@@ -1,8 +1,8 @@
 import { date } from "../date.js";
 import {
     newDateButtonElement,
-    settingsElement,
     resultElement,
+    settingsElement,
 } from "../elements.js";
 import { timer } from "../timer.js";
 import { enable, disable } from "../utils.js";

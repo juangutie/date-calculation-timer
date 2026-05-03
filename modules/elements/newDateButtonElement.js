@@ -1,9 +1,9 @@
 import { date } from "../date.js";
 import {
-    guessElement,
-    settingsElement,
-    resultElement,
     dateElement,
+    guessElement,
+    resultElement,
+    settingsElement,
 } from "../elements.js";
 import { timer } from "../timer.js";
 import { enable, disable } from "../utils.js";
