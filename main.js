@@ -20,23 +20,26 @@ import {
     UpdateFormatEvent,
 } from "events";
 import {
+    dateToString,
     disableControl,
     enableControl,
-    getDateString,
     getDayIndex,
     getDayString,
-    getRandomDateString,
     monthNames,
+    randomDate,
     startTimer,
     stopTimer,
 } from "utils";
+
+let date;
 
 document.addEventListener(StartGameEvent.type, () => {
     disableControl(newDateButtonElement);
     enableControl(guessElement);
     disableControl(settingsElement);
     guessElement.focus();
-    dateElement.textContent = getRandomDateString(getSettings());
+    date = randomDate(getSettings());
+    dateElement.textContent = dateToString(date, getSettings());
     resultElement.textContent = "";
     guessElement.value = "";
     startTimer((timeString) => timerElement.textContent = timeString);
@@ -48,13 +51,21 @@ document.addEventListener(StopGameEvent.type, () => {
     disableControl(guessElement);
     enableControl(settingsElement);
     newDateButtonElement.focus();
-    resultElement.textContent = getDayIndex() === parseInt(guessElement.value)
+    resultElement.textContent = getDayIndex(date) === parseInt(guessElement.value)
         ? "✅"
-        : `❌ ${getDayString()}`;
+        : `❌ ${getDayString(date)}`;
 });
 
 document.addEventListener(UpdateFormatEvent.type, () => {
-    dateElement.textContent = getDateString(getSettings());
+    dateElement.textContent = dateToString(date, getSettings());
+    monthFilterElement.textContent = getMonthFilterValues()
+        .map((monthIndex) => new Date(1700, monthIndex, 7))
+        .map((date) => dateToString(date, {
+            ...getSettings(),
+            useYear: false,
+            useMonth: true,
+            useDay: false,
+        })).join(", ");
 });
 
 function getSettings() {
@@ -75,5 +86,5 @@ function getMonthFilterValues() {
         .toLowerCase()
         .split(",")
         .filter((monthName) => monthNames.includes(monthName))
-        .map((monthName) => monthNames.indexOf(monthName));
+        .map((monthName) => monthNames.indexOf(monthName) % 12);
 }

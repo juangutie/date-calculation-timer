@@ -1,32 +1,17 @@
-let date;
-
-export function getRandomDateString(settings) {
-    const {
-        useYear,
-        useMonth,
-        useDay,
-        yearFilter,
-        monthFilter,
-        dayFilter
-    } = settings;
-    if (!useYear) {
-        yearFilter = defaults.year;
-    }
-    if (!useMonth) {
-        monthFilter = defaults.monthIndex;
-    }
-    if (!useDay) {
-        dayFilter = defaults.monthIndex;
-    }
-    date = randomDate({
+export function randomDate({
         yearFilter,
         monthFilter,
         dayFilter,
+    }) {
+    const filteredDates = allDates.filter((date) => {
+        return (yearFilter?.includes(date.getFullYear()) ?? true)
+            && (monthFilter?.includes(date.getMonth()) ?? true)
+            && (dayFilter?.includes(date.getDate()) ?? true)
     });
-    return getDateString(settings);
+    return randomFromArray(filteredDates);
 }
 
-export function getDateString({
+export function dateToString(date, {
         useYear,
         useMonth,
         useDay,
@@ -44,17 +29,23 @@ export function getDateString({
     ].join(" ");
 }
 
-export function getDayIndex() {
+export function getDayIndex(date) {
     return date?.getDay();
 }
 
-export function getDayString() {
+export function getDayString(date) {
     return date?.toLocaleDateString(undefined, {weekday: "long"});
 }
 
 export const monthNames = [
     "january", "february", "march", "april", "may", "june",
     "july", "august", "september", "october", "november", "december",
+    "jan", "feb", "mar", "apr", "may", "jun",
+    "jul", "aug", "sep", "oct", "nov", "dec",
+    "01", "02", "03", "04", "05", "06",
+    "07", "08", "09", "10", "11", "12",
+    "1", "2", "3", "4", "5", "6",
+    "7", "8", "9",
 ];
 
 const monthLengths = [
@@ -81,19 +72,6 @@ const allDates = (() => {
 
     return allDates;
 })();
-
-function randomDate({
-        yearFilter,
-        monthFilter,
-        dayFilter,
-    }) {
-    const filteredDates = allDates.filter((date) => {
-        return (yearFilter?.includes(date.getFullYear()) ?? true)
-            && (monthFilter?.includes(date.getMonth()) ?? true)
-            && (dayFilter?.includes(date.getDate()) ?? true)
-    });
-    return randomFromArray(filteredDates);
-}
 
 function randomFromArray(array) {
     return array[Math.floor(Math.random() * array.length)];
