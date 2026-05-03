@@ -4,10 +4,10 @@ import {
     settingsElement,
 } from "elements";
 import {
-    dayIndex,
-    dayString,
-    disable,
-    enable,
+    disableControl,
+    enableControl,
+    getDayIndex,
+    getDayString,
     stopTimer,
 } from "utils";
 
@@ -26,11 +26,11 @@ guessElement.addEventListener("change", () => {
 
 function stopGame() {
     stopTimer();
-    enable(newDateButtonElement);
-    disable(guessElement);
-    enable(settingsElement);
+    enableControl(newDateButtonElement);
+    disableControl(guessElement);
+    enableControl(settingsElement);
     newDateButtonElement.focus();
-    resultElement.textContent = dayIndex() === parseInt(guessElement.value)
+    resultElement.textContent = getDayIndex() === parseInt(guessElement.value)
         ? "✅"
-        : `❌ ${dayString()}`; 
+        : `❌ ${getDayString()}`; 
 }

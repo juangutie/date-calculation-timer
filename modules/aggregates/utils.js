@@ -1,10 +1,10 @@
 export * from "../utils/date.js";
 export * from "../utils/timer.js";
 
-export function enable(element) {
+export function enableControl(element) {
     element.removeAttribute("disabled");
 }
 
-export function disable(element) {
+export function disableControl(element) {
     element.setAttribute("disabled", "disabled");
 }

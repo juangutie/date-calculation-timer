@@ -5,15 +5,15 @@ let useDay = true;
 let monthFormat = "long";
 let dayFormat = "numeric";
 
-export function randomDateString() {
+export function getRandomDateString() {
     const year = useYear ? randomYear() : defaults.year;
     const monthIndex = useMonth ? randomMonthIndex(year) : defaults.monthIndex;
     const day = useDay ? randomDay(year, monthIndex) : defaults.day;
     date = new Date(year, monthIndex, day);
-    return dateString();
+    return getDateString();
 }
 
-export function dateString({
+export function getDateString({
         useYear: _useYear = useYear,
         useMonth: _useMonth = useMonth,
         useDay: _useDay = useDay,
@@ -36,11 +36,11 @@ export function dateString({
     ].join(" ");
 }
 
-export function dayIndex() {
+export function getDayIndex() {
     return date?.getDay();
 }
 
-export function dayString() {
+export function getDayString() {
     return date?.toLocaleDateString(undefined, {weekday: "long"});
 }
 
