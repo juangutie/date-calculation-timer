@@ -1,6 +1,6 @@
-import { monthFilterElement } from "elements";
-import { UpdateFormatEvent } from "events";
-import { reformatMonthsString } from "utils";
+import { monthFilterElement } from "./_elements.js";
+import { UpdateFormatEvent } from "../events.js";
+import { reformatMonthsString } from "../utils/_utils.js";
 
 export const monthFormatElement = document.querySelector("[data-month-format]");
 

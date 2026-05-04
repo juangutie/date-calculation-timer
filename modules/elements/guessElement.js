@@ -1,4 +1,4 @@
-import { StopGameEvent } from "events";
+import { StopGameEvent } from "../events.js";
 
 export const guessElement = document.querySelector("[data-guess]");
 

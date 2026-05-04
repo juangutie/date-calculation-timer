@@ -1,6 +1,6 @@
-import { dayFilterElement } from "elements";
-import { UpdateFormatEvent } from "events";
-import { reformatDaysString } from "utils";
+import { dayFilterElement } from "./_elements.js";
+import { UpdateFormatEvent } from "../events.js";
+import { reformatDaysString } from "../utils/_utils.js";
 
 export const dayFormatElement = document.querySelector("[data-day-format]");
 

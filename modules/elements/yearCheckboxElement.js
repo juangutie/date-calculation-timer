@@ -1,4 +1,4 @@
-import { UpdateFormatEvent } from "events";
+import { UpdateFormatEvent } from "../events.js";
 
 export const yearCheckboxElement = document.querySelector("[data-year-checkbox]");
 

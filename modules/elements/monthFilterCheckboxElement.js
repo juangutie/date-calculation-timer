@@ -1,8 +1,8 @@
-import { monthFilterElement } from "elements";
+import { monthFilterElement } from "./_elements.js";
 import {
     disableControl,
     enableControl,
-} from "utils";
+} from "../utils/_utils.js";
 
 export const monthFilterCheckboxElement = document.querySelector("[data-month-filter-checkbox]");
 

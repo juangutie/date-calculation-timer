@@ -96,21 +96,4 @@
         </fieldset>
     </details>
 </footer>
-<script>
-navigator?.serviceWorker.register(
-    "/date-calculation-timer/service-worker.js",
-    { scope: "/date-calculation-timer/" }
-);
-</script>
-<script type="importmap">
-{
-    "imports": {
-        "elements/": "./modules/elements/",
-        "utils/": "./modules/utils/",
-        "elements": "./modules/elements/_elements.js",
-        "events": "./modules/events.js",
-        "utils": "./modules/utils/_utils.js"
-    }
-}
-</script>
 <script type="module" src="main.js"></script>

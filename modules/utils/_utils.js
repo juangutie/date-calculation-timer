@@ -1,5 +1,5 @@
-export * from "utils/date.js";
-export * from "utils/timer.js";
+export * from "./date.js";
+export * from "./timer.js";
 
 export function enableControl(element) {
     element.removeAttribute("disabled");

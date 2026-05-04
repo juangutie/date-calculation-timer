@@ -1,4 +1,4 @@
-import { StartGameEvent } from "events";
+import { StartGameEvent } from "../events.js";
 
 export const newDateButtonElement = document.querySelector("[data-new-date-button]");
 

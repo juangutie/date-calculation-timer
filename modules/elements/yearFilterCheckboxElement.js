@@ -1,8 +1,8 @@
-import { yearFilterElement } from "elements";
+import { yearFilterElement } from "./_elements.js";
 import {
     disableControl,
     enableControl,
-} from "utils";
+} from "../utils/_utils.js";
 
 export const yearFilterCheckboxElement = document.querySelector("[data-year-filter-checkbox]");
 

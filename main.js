@@ -1,4 +1,4 @@
-import "elements";
+import "./modules/elements/_elements.js";
 import {
     dateElement,
     dayCheckboxElement,
@@ -17,12 +17,12 @@ import {
     yearCheckboxElement,
     yearFilterCheckboxElement,
     yearFilterElement,
-} from "elements";
+} from "./modules/elements/_elements.js";
 import {
     StartGameEvent,
     StopGameEvent,
     UpdateFormatEvent,
-} from "events";
+} from "./modules/events.js";
 import {
     dateToString,
     disableControl,
@@ -35,7 +35,7 @@ import {
     randomDate,
     startTimer,
     stopTimer,
-} from "utils";
+} from "./modules/utils/_utils.js";
 
 let date;
 
@@ -65,6 +65,11 @@ document.addEventListener(StopGameEvent.type, () => {
 document.addEventListener(UpdateFormatEvent.type, () => {
     dateElement.textContent = dateToString(date, getSettings());
 });
+
+navigator?.serviceWorker.register(
+    "/date-calculation-timer/service-worker.js",
+    { scope: "/date-calculation-timer/" }
+);
 
 function getSettings() {
     return {

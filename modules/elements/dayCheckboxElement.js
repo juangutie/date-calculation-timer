@@ -1,4 +1,4 @@
-import { UpdateFormatEvent } from "events";
+import { UpdateFormatEvent } from "../events.js";
 
 export const dayCheckboxElement = document.querySelector("[data-day-checkbox]");
 
