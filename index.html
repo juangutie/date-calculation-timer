@@ -1,6 +1,22 @@
 <!doctype html>
 <title>Date Calculation Timer</title>
 <link rel="stylesheet" href="main.css">
+<link rel="modulepreload" href="main.js">
+<link rel="modulepreload" href="modules/events.js">
+<link rel="modulepreload" href="modules/elements/_elements.js">
+<link rel="modulepreload" href="modules/elements/dayCheckboxElement.js">
+<link rel="modulepreload" href="modules/elements/dayFilterCheckboxElement.js">
+<link rel="modulepreload" href="modules/elements/dayFormatElement.js">
+<link rel="modulepreload" href="modules/elements/guessElement.js">
+<link rel="modulepreload" href="modules/elements/monthCheckboxElement.js">
+<link rel="modulepreload" href="modules/elements/monthFilterCheckboxElement.js">
+<link rel="modulepreload" href="modules/elements/monthFormatElement.js">
+<link rel="modulepreload" href="modules/elements/newDateButtonElement.js">
+<link rel="modulepreload" href="modules/elements/yearCheckboxElement.js">
+<link rel="modulepreload" href="modules/elements/yearFilterCheckboxElement.js">
+<link rel="modulepreload" href="modules/utils/_utils.js">
+<link rel="modulepreload" href="modules/utils/date.js">
+<link rel="modulepreload" href="modules/utils/timer.js">
 <main>
     <div>
         <output data-date>Month Day Year</output>
@@ -80,6 +96,12 @@
         </fieldset>
     </details>
 </footer>
+<script>
+navigator?.serviceWorker.register(
+    "/date-calculation-timer/service-worker.js",
+    { scope: "/date-calculation-timer/" }
+);
+</script>
 <script type="importmap">
 {
     "imports": {
