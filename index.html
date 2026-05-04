@@ -1,78 +1,85 @@
 <!doctype html>
 <title>Date Calculation Timer</title>
-<div>
-    <output data-date>Month Day Year</output>
-</div>
-<div>
-    <output data-timer>0:000</output>
-</div>
-<div>
-    <button type="button" data-new-date-button>New Date</button>
-</div>
-<div>
-    <label for="guess">Guess:</label>
-    <select id="guess" disabled data-guess>
-        <option value=""></option>
-        <option value="0">0 - Sunday</option>
-        <option value="1">1 - Monday</option>
-        <option value="2">2 - Tuesday</option>
-        <option value="3">3 - Wednesday</option>
-        <option value="4">4 - Thursday</option>
-        <option value="5">5 - Friday</option>
-        <option value="6">6 - Saturday</option>
-    </select>
-</div>
-<div>
-    <output data-result></output>
-</div>
-<fieldset data-settings>
-    <legend>Settings</legend>
-    <ul>
-        <li>
-            <input type="checkbox" id="month" checked data-month-checkbox>
-            <label for="month">Month</label>
-            <ul>
+<link rel="stylesheet" href="main.css">
+<main>
+    <div>
+        <output data-date>Month Day Year</output>
+    </div>
+    <div>
+        <output data-timer>0:000</output>
+    </div>
+    <div>
+        <button type="button" data-new-date-button>New Date</button>
+    </div>
+    <div>
+        <label for="guess">Guess:</label>
+        <select id="guess" disabled data-guess>
+            <option value=""></option>
+            <option value="0">0 - Sunday</option>
+            <option value="1">1 - Monday</option>
+            <option value="2">2 - Tuesday</option>
+            <option value="3">3 - Wednesday</option>
+            <option value="4">4 - Thursday</option>
+            <option value="5">5 - Friday</option>
+            <option value="6">6 - Saturday</option>
+        </select>
+    </div>
+    <div>
+        <output data-result></output>
+    </div>
+</main>
+<footer class="footer">
+    <details>
+        <summary class="footer__settings_title">Settings</summary>
+        <fieldset data-settings>
+            <ul class="footer__settings_list">
                 <li>
-                    <label for="month-format">format:</label>
-                    <select id="month-format" data-month-format>
-                    <option value="long">long</option>
-                    <option value="short">short</option>
-                    <option value="2-digit">2-digit</option>
-                    <option value="numeric">numeric</option>
-                    </select>
+                    <input type="checkbox" id="month" checked data-month-checkbox>
+                    <label for="month">Month</label>
+                    <ul>
+                        <li>
+                            <label for="month-format">format:</label>
+                            <select id="month-format" data-month-format>
+                            <option value="long">long</option>
+                            <option value="short">short</option>
+                            <option value="2-digit">2-digit</option>
+                            <option value="numeric">numeric</option>
+                            </select>
+                        <li>
+                            <input type="checkbox" id="month-filter-checkbox" data-month-filter-checkbox>
+                            <label for="month-filter-checkbox">use only these months:</label>
+                            <br>
+                            <textarea disabled data-month-filter>January, February, March, April, May, June, July, August, September, October, November, December</textarea>
+                    </ul>
                 <li>
-                    <input type="checkbox" id="month-filter-checkbox" data-month-filter-checkbox>
-                    <label for="month-filter-checkbox">use only these months:</label>
-                    <br>
-                    <textarea disabled data-month-filter>January, February, March, April, May, June, July, August, September, October, November, December</textarea>
-            </ul>
-        <li>
-            <input type="checkbox" id="day" checked data-day-checkbox>
-            <label for="day">Day</label>
-            <ul>
-                <li>
-                    <label for="day-format">format:</label>
-                    <select id="day-format" data-day-format>
-                        <option value="numeric">numeric</option>
-                        <option value="2-digit">2-digit</option>
-                    </select>
-                <li>
-                    <input type="checkbox" id="day-filter-checkbox" data-day-filter-checkbox>
-                    <label for="day-filter-checkbox">use only these days:</label>
-                    <br>
-                    <textarea disabled data-day-filter>1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31</textarea>
-            </ul>
-    <li>
-        <input type="checkbox" id="year" checked data-year-checkbox>
-        <label for="year">Year</label>
-        <ul>
+                    <input type="checkbox" id="day" checked data-day-checkbox>
+                    <label for="day">Day</label>
+                    <ul>
+                        <li>
+                            <label for="day-format">format:</label>
+                            <select id="day-format" data-day-format>
+                                <option value="numeric">numeric</option>
+                                <option value="2-digit">2-digit</option>
+                            </select>
+                        <li>
+                            <input type="checkbox" id="day-filter-checkbox" data-day-filter-checkbox>
+                            <label for="day-filter-checkbox">use only these days:</label>
+                            <br>
+                            <textarea disabled data-day-filter>1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31</textarea>
+                    </ul>
             <li>
-                <input type="checkbox" id="year-filter-checkbox" data-year-filter-checkbox>
-                <label for="year-filter-checkbox">use only these year endings:</label>
-                <br>
-                <textarea disabled data-year-filter>00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99</textarea>
-    </ul>
-</fieldset>
+                <input type="checkbox" id="year" checked data-year-checkbox>
+                <label for="year">Year</label>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="year-filter-checkbox" data-year-filter-checkbox>
+                        <label for="year-filter-checkbox">use only these year endings:</label>
+                        <br>
+                        <textarea disabled data-year-filter>00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99</textarea>
+            </ul>
+        </fieldset>
+    </details>
+</footer>
 <script type="importmap">
 {
     "imports": {
