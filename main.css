@@ -37,6 +37,11 @@ details[open]::details-content {
     block-size: auto;
 }
 
+.result-wrapper {
+    min-height: 1.25em;
+    line-height: 1.25;
+}
+
 .footer {
     margin: 8px;
 }
