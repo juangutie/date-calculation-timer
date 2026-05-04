@@ -1,9 +1,21 @@
 export function randomDate({
+        useYear,
+        useMonth,
+        useDay,
         yearFilter,
         monthFilter,
         dayFilter,
     }) {
     const filteredDates = allDates.filter((date) => {
+        if (!useYear && date.getFullYear() !== defaults.year) {
+            return false;
+        }
+        if (!useMonth && date.getMonth() !== defaults.monthIndex) {
+            return false;
+        }
+        if (!useDay && date.getDate() !== defaults.day) {
+            return false;
+        }
         return (yearFilter?.includes(date.getFullYear() % 100) ?? true)
             && (monthFilter?.includes(date.getMonth()) ?? true)
             && (dayFilter?.includes(date.getDate()) ?? true)
