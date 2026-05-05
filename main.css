@@ -25,6 +25,10 @@ main {
     justify-content: center;
 }
 
+details {
+    overflow: hidden;
+}
+
 details::details-content {
     block-size: 0;
     transition:

@@ -1,5 +1,5 @@
 const REPOSITORY = "date-calculation-timer";
-const VERSION = "v0";
+const VERSION = "v1";
 const URLS = [
     "/",
     "/index.html",
