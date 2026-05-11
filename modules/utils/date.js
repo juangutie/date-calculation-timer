@@ -2,6 +2,7 @@ export function randomDate({
         useYear,
         useMonth,
         useDay,
+        centuryFilter,
         yearFilter,
         monthFilter,
         dayFilter,
@@ -16,7 +17,8 @@ export function randomDate({
         if (!useDay && date.getDate() !== defaults.day) {
             return false;
         }
-        return (yearFilter?.includes(date.getFullYear() % 100) ?? true)
+        return (centuryFilter?.includes(Math.floor(date.getFullYear() / 100)) ?? true)
+            && (yearFilter?.includes(date.getFullYear() % 100) ?? true)
             && (monthFilter?.includes(date.getMonth()) ?? true)
             && (dayFilter?.includes(date.getDate()) ?? true)
     });
@@ -63,6 +65,14 @@ export function parseYears(str) {
         .replaceAll(" ", "")
         .split(",")
         .map((yearStr) => parseInt(yearStr, 10) % 100)
+        .filter((year) => !Number.isNaN(year));
+}
+
+export function parseCenturies(str) {
+    return str
+        .replaceAll(" ", "")
+        .split(",")
+        .map((yearStr) => Math.floor(parseInt(yearStr, 10) / 100))
         .filter((year) => !Number.isNaN(year));
 }
 

@@ -1,5 +1,7 @@
 import "./modules/elements/_elements.js";
 import {
+    centuryFilterCheckboxElement,
+    centuryFilterElement,
     dateElement,
     dayCheckboxElement,
     dayFilterCheckboxElement,
@@ -29,6 +31,7 @@ import {
     enableControl,
     getDayIndex,
     getDayString,
+    parseCenturies,
     parseDays,
     parseMonths,
     parseYears,
@@ -84,6 +87,10 @@ function getSettings() {
         ),
         ...(dayFilterCheckboxElement.checked 
             ? {dayFilter: parseDays(dayFilterElement.value)}
+            : {}
+        ),
+        ...(centuryFilterCheckboxElement.checked 
+            ? {centuryFilter: parseCenturies(centuryFilterElement.value)}
             : {}
         ),
         ...(yearFilterCheckboxElement.checked 

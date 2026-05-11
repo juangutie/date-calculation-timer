@@ -1,5 +1,5 @@
 const REPOSITORY = "date-calculation-timer";
-const VERSION = "v1";
+const VERSION = "v2";
 const URLS = [
     "/",
     "/index.html",
@@ -7,6 +7,7 @@ const URLS = [
     "/main.js",
     "/modules/events.js",
     "/modules/elements/_elements.js",
+    "/modules/elements/centuryFilterCheckboxElement.js",
     "/modules/elements/dayCheckboxElement.js",
     "/modules/elements/dayFilterCheckboxElement.js",
     "/modules/elements/dayFormatElement.js",
