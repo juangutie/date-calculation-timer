@@ -6,10 +6,12 @@ export function startTimer(callback) {
     const animationStartTime = document.timeline.currentTime;
     savedCallback = callback;
     performanceStartTime = performance.now();
-    animationRequestId = requestAnimationFrame(function step(currentTime) {
-        animationRequestId = requestAnimationFrame(step);
-        savedCallback(formatToString(currentTime - animationStartTime));
-    }.bind(this));
+    animationRequestId = requestAnimationFrame(
+        function step(currentTime) {
+            animationRequestId = requestAnimationFrame(step);
+            savedCallback(formatToString(currentTime - animationStartTime));
+        }.bind(this),
+    );
 }
 
 export function stopTimer() {

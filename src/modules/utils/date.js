@@ -1,12 +1,12 @@
 export function randomDate({
-        useYear,
-        useMonth,
-        useDay,
-        centuryFilter,
-        yearFilter,
-        monthFilter,
-        dayFilter,
-    }) {
+    useYear,
+    useMonth,
+    useDay,
+    centuryFilter,
+    yearFilter,
+    monthFilter,
+    dayFilter,
+}) {
     const filteredDates = allDates.filter((date) => {
         if (!useYear && date.getFullYear() !== defaults.year) {
             return false;
@@ -17,30 +17,33 @@ export function randomDate({
         if (!useDay && date.getDate() !== defaults.day) {
             return false;
         }
-        return (centuryFilter?.includes(Math.floor(date.getFullYear() / 100)) ?? true)
-            && (yearFilter?.includes(date.getFullYear() % 100) ?? true)
-            && (monthFilter?.includes(date.getMonth()) ?? true)
-            && (dayFilter?.includes(date.getDate()) ?? true)
+        return (
+            (centuryFilter?.includes(Math.floor(date.getFullYear() / 100)) ??
+                true) &&
+            (yearFilter?.includes(date.getFullYear() % 100) ?? true) &&
+            (monthFilter?.includes(date.getMonth()) ?? true) &&
+            (dayFilter?.includes(date.getDate()) ?? true)
+        );
     });
     return randomFromArray(filteredDates);
 }
 
-export function dateToString(date, {
-        useYear,
-        useMonth,
-        useDay,
-        monthFormat,
-        dayFormat,
-    }) {
-    return date?.toLocaleDateString(undefined, {
-        ...(useYear ? {year: "numeric"} : {}),
-        ...(useMonth ? {month: monthFormat} : {}),
-        ...(useDay ? {day: dayFormat} : {}),
-    }) ?? [
-        ...(useMonth ? ["Month"] : []),
-        ...(useDay ? ["Day"] : []),
-        ...(useYear ? ["Year"] : []),
-    ].join(" ");
+export function dateToString(
+    date,
+    { useYear, useMonth, useDay, monthFormat, dayFormat },
+) {
+    return (
+        date?.toLocaleDateString(undefined, {
+            ...(useYear ? { year: "numeric" } : {}),
+            ...(useMonth ? { month: monthFormat } : {}),
+            ...(useDay ? { day: dayFormat } : {}),
+        }) ??
+        [
+            ...(useMonth ? ["Month"] : []),
+            ...(useDay ? ["Day"] : []),
+            ...(useYear ? ["Year"] : []),
+        ].join(" ")
+    );
 }
 
 export function parseDays(str) {
@@ -78,29 +81,27 @@ export function parseCenturies(str) {
 
 export function reformatDaysString(str, dayFormat) {
     return parseDays(str)
-        .map((day) => dateToString(
-            new Date(defaults.year, defaults.monthIndex, day),
-            {
+        .map((day) =>
+            dateToString(new Date(defaults.year, defaults.monthIndex, day), {
                 useYear: false,
                 useMonth: false,
                 useDay: true,
                 dayFormat,
-            }
-        ))
+            }),
+        )
         .join(", ");
 }
 
 export function reformatMonthsString(str, monthFormat) {
     return parseMonths(str)
-        .map((monthIndex) => dateToString(
-            new Date(defaults.year, monthIndex),
-            {
+        .map((monthIndex) =>
+            dateToString(new Date(defaults.year, monthIndex), {
                 useYear: false,
                 useMonth: true,
                 useDay: false,
                 monthFormat,
-            }
-        ))
+            }),
+        )
         .join(", ");
 }
 
@@ -109,24 +110,58 @@ export function getDayIndex(date) {
 }
 
 export function getDayString(date) {
-    return date?.toLocaleDateString(undefined, {weekday: "long"});
+    return date?.toLocaleDateString(undefined, { weekday: "long" });
 }
 
 export const monthNames = [
-    "january", "february", "march", "april", "may", "june",
-    "july", "august", "september", "october", "november", "december",
-    "jan", "feb", "mar", "apr", "may", "jun",
-    "jul", "aug", "sep", "oct", "nov", "dec",
-    "01", "02", "03", "04", "05", "06",
-    "07", "08", "09", "10", "11", "12",
-    "1", "2", "3", "4", "5", "6",
-    "7", "8", "9",
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "oct",
+    "nov",
+    "dec",
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
 ];
 
-const monthLengths = [
-    31, 28, 31, 30, 31, 30,
-    31, 31, 30, 31, 30, 31,
-];
+const monthLengths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 const defaults = {
     year: 1700,

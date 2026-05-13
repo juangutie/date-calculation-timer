@@ -51,7 +51,7 @@ document.addEventListener(StartGameEvent.type, () => {
     dateElement.textContent = dateToString(date, getSettings());
     resultElement.textContent = "";
     guessElement.value = "";
-    startTimer((timeString) => timerElement.textContent = timeString);
+    startTimer((timeString) => (timerElement.textContent = timeString));
 });
 
 document.addEventListener(StopGameEvent.type, () => {
@@ -60,19 +60,19 @@ document.addEventListener(StopGameEvent.type, () => {
     disableControl(guessElement);
     enableControl(settingsElement);
     newDateButtonElement.focus();
-    resultElement.textContent = getDayIndex(date) === parseInt(guessElement.value, 10)
-        ? "✅"
-        : `❌ ${getDayString(date)}`;
+    resultElement.textContent =
+        getDayIndex(date) === parseInt(guessElement.value, 10)
+            ? "✅"
+            : `❌ ${getDayString(date)}`;
 });
 
 document.addEventListener(UpdateFormatEvent.type, () => {
     dateElement.textContent = dateToString(date, getSettings());
 });
 
-navigator?.serviceWorker.register(
-    "/date-calculation-timer/service-worker.js",
-    { scope: "/date-calculation-timer/" }
-);
+navigator?.serviceWorker.register("/date-calculation-timer/service-worker.js", {
+    scope: "/date-calculation-timer/",
+});
 
 function getSettings() {
     return {
@@ -81,21 +81,17 @@ function getSettings() {
         useDay: dayCheckboxElement.checked,
         monthFormat: monthFormatElement.value,
         dayFormat: dayFormatElement.value,
-        ...(monthFilterCheckboxElement.checked 
-            ? {monthFilter: parseMonths(monthFilterElement.value)}
-            : {}
-        ),
-        ...(dayFilterCheckboxElement.checked 
-            ? {dayFilter: parseDays(dayFilterElement.value)}
-            : {}
-        ),
-        ...(centuryFilterCheckboxElement.checked 
-            ? {centuryFilter: parseCenturies(centuryFilterElement.value)}
-            : {}
-        ),
-        ...(yearFilterCheckboxElement.checked 
-            ? {yearFilter: parseYears(yearFilterElement.value)}
-            : {}
-        ),
-    }
+        ...(monthFilterCheckboxElement.checked
+            ? { monthFilter: parseMonths(monthFilterElement.value) }
+            : {}),
+        ...(dayFilterCheckboxElement.checked
+            ? { dayFilter: parseDays(dayFilterElement.value) }
+            : {}),
+        ...(centuryFilterCheckboxElement.checked
+            ? { centuryFilter: parseCenturies(centuryFilterElement.value) }
+            : {}),
+        ...(yearFilterCheckboxElement.checked
+            ? { yearFilter: parseYears(yearFilterElement.value) }
+            : {}),
+    };
 }

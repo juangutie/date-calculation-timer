@@ -9,7 +9,9 @@ export * from "./monthFormatElement.js";
 export * from "./newDateButtonElement.js";
 export * from "./yearCheckboxElement.js";
 export * from "./yearFilterCheckboxElement.js";
-export const centuryFilterElement = document.querySelector("[data-century-filter]");
+export const centuryFilterElement = document.querySelector(
+    "[data-century-filter]",
+);
 export const dateElement = document.querySelector("[data-date]");
 export const dayFilterElement = document.querySelector("[data-day-filter]");
 export const monthFilterElement = document.querySelector("[data-month-filter]");
