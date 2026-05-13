@@ -1,3 +1,4 @@
+// dontbiome-ignore-all format: don't format this file
 const REPOSITORY = "date-calculation-timer";
 const VERSION = "v2";
 const URLS = [
